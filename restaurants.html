@@ -18,6 +18,7 @@
             --gold-hover: #AA820A;
             --text-light: #E0E0E0;
             --border-gold: rgba(212, 175, 55, 0.3);
+            --btn-bg: #0088cc;
             --whatsapp-color: #25D366;
         }
 
@@ -196,26 +197,144 @@
             margin-bottom: 0.8rem;
         }
 
-        /* زر اطلب هذا */
+        /* زر اطلب الآن */
         .order-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
             width: 100%;
             padding: 0.6rem;
             border-radius: 8px;
-            background-color: var(--whatsapp-color);
+            background-color: var(--btn-bg);
             color: #FFFFFF;
             text-decoration: none;
             font-weight: 700;
             font-size: 0.95rem;
             transition: background-color 0.3s ease, transform 0.2s;
+            border: none;
+            cursor: pointer;
         }
 
         .order-btn:hover {
-            background-color: #1ebd59;
+            background-color: #0077b5;
             transform: scale(1.02);
+        }
+
+        /* نافذة أدخل بياناتك (User Data Modal) */
+        .data-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            padding: 20px;
+        }
+
+        .data-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .data-modal-card {
+            background: #181818;
+            border: 1px solid var(--gold-primary);
+            border-radius: 15px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.25);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .data-modal.active .data-modal-card {
+            transform: scale(1);
+        }
+
+        .data-modal-card h3 {
+            color: var(--gold-light);
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .data-modal-card p {
+            color: #AAA;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+            color: var(--gold-light);
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-gold);
+            background-color: #0A0A0A;
+            color: #FFFFFF;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: var(--gold-primary);
+        }
+
+        .submit-data-btn {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--gold-primary) 0%, #AA820A 100%);
+            color: #000000;
+            font-weight: 800;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-data-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .close-data-modal {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            color: #AAA;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-data-modal:hover {
+            color: #FFFFFF;
         }
 
         /* نافذة المعاينة بالكامل (Fullscreen Lightbox Modal) */
@@ -386,6 +505,28 @@
         </div>
     </section>
 
+    <!-- نافذة ادخل بياناتك (تظهر عند الضغط على اطلب الآن) -->
+    <div class="data-modal" id="dataModal">
+        <div class="data-modal-card">
+            <span class="close-data-modal" id="closeDataModal">&times;</span>
+            <h3 id="modalDesignTitle">إكمال طلب التصميم</h3>
+            <p>يرجى إدخال بياناتك ليتواصل معك فريق ميجا جرافيك</p>
+            <form id="orderDataForm">
+                <div class="form-group">
+                    <label for="clientName">الاسم الكامل:</label>
+                    <input type="text" id="clientName" placeholder="أدخل اسمك الكريم" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientPhone">رقم الهاتف / الواتساب:</label>
+                    <input type="tel" id="clientPhone" placeholder="أدخل رقم هاتفك" required>
+                </div>
+                <button type="submit" class="submit-data-btn" id="submitOrderBtn">
+                    تأكيد وإرسال الطلب
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- نافذة المعاينة الكبيرة للصورة بالكامل -->
     <div class="lightbox-modal" id="lightboxModal">
         <span class="lightbox-close" id="lightboxClose">&times;</span>
@@ -412,12 +553,96 @@
         <p>جميع الحقوق محفوظة &copy; 2026 لموقع <strong>ميجا جرافيك</strong></p>
     </footer>
 
-    <!-- السكربت لتوليد الصور والتحكم بالمعاينة الكبيرة ورابط الواتساب لكل تصميم -->
+    <!-- السكربت لتوليد الصور والتحكم بالنوافذ وإرسال البيانات للبوت -->
     <script>
         const galleryContainer = document.getElementById('galleryContainer');
         const lightboxModal = document.getElementById('lightboxModal');
         const lightboxImg = document.getElementById('lightboxImg');
         const lightboxClose = document.getElementById('lightboxClose');
+
+        // عناصر نافذة البيانات
+        const dataModal = document.getElementById('dataModal');
+        const closeDataModal = document.getElementById('closeDataModal');
+        const orderDataForm = document.getElementById('orderDataForm');
+        const modalDesignTitle = document.getElementById('modalDesignTitle');
+        const submitOrderBtn = document.getElementById('submitOrderBtn');
+
+        // إعدادات تليجرام
+        const TELEGRAM_BOT_TOKEN = '8990133528:AAF-Pb82_knno-g_pYxE3qBeEH6_8FoCtvQ';
+        const TELEGRAM_CHAT_ID = '5847571012';
+
+        // متغيرة لحفظ بيانات التصميم المختار حالياً
+        let currentSelectedDesign = {
+            number: null,
+            imageUrl: ''
+        };
+
+        // فتح نافذة إدخال البيانات
+        function openDataModal(event, designNumber, imageUrl) {
+            event.stopPropagation(); // منع فتح الصورة الكبيرة
+            currentSelectedDesign.number = designNumber;
+            currentSelectedDesign.imageUrl = imageUrl;
+            
+            modalDesignTitle.innerText = `طلب تصميم رقم ${designNumber}`;
+            dataModal.classList.add('active');
+        }
+
+        // إغلاق نافذة البيانات
+        closeDataModal.addEventListener('click', () => {
+            dataModal.classList.remove('active');
+        });
+
+        // إغلاق نافذة البيانات عند الضغط خارجها
+        dataModal.addEventListener('click', (e) => {
+            if (e.target === dataModal) {
+                dataModal.classList.remove('active');
+            }
+        });
+
+        // إرسال البيانات للتليجرام عند اعتماد النموذج
+        orderDataForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const clientName = document.getElementById('clientName').value.trim();
+            const clientPhone = document.getElementById('clientPhone').value.trim();
+
+            if (!clientName || !clientPhone) return;
+
+            const originalBtnText = submitOrderBtn.innerHTML;
+            submitOrderBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الإرسال...';
+            submitOrderBtn.disabled = true;
+
+            const textMessage = `📬 *طلب تصميم جديد - ميجا جرافيك*\n\n👤 *الاسم:* ${clientName}\n📞 *الهاتف:* ${clientPhone}\n🎨 *التصميم:* رقم ${currentSelectedDesign.number}\n🖼️ *رابط الصورة:* ${currentSelectedDesign.imageUrl}`;
+            const telegramApiUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+
+            fetch(telegramApiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: textMessage,
+                    parse_mode: 'Markdown'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    alert('تم إرسال طلبك بنجاح! سيتواصل معك فريق ميجا جرافيك في أقرب وقت.');
+                    orderDataForm.reset();
+                    dataModal.classList.remove('active');
+                } else {
+                    throw new Error(data.description);
+                }
+            })
+            .catch(error => {
+                console.error('Telegram Error:', error);
+                alert('حدث خطأ أثناء الإرسال، يرجى المحاولة مرة أخرى.');
+            })
+            .finally(() => {
+                submitOrderBtn.innerHTML = originalBtnText;
+                submitOrderBtn.disabled = false;
+            });
+        });
 
         // إنشاء عناصر الصور من 10 إلى 50 تلقائياً
         for (let i = 10; i <= 50; i++) {
@@ -425,18 +650,14 @@
             card.className = 'gallery-card';
             const imageSrc = `${i}.png`;
             const fullImageUrl = window.location.origin + window.location.pathname.replace('restaurants.html', '') + imageSrc;
-            
-            // نص الرسالة الموجهة للواتساب
-            const whatsappMessage = `مرحباً ميجا جرافيك 👋\nأرغب في طلب هذا التصميم:\n📌 اسم التصميم: تصميم رقم ${i}\n🖼️ رابط الصورة: ${fullImageUrl}`;
-            const whatsappUrl = `https://wa.me/201010255123?text=${encodeURIComponent(whatsappMessage)}`;
 
             card.innerHTML = `
                 <img src="${imageSrc}" alt="نموذج ${i}" class="gallery-img" onerror="this.onerror=null; this.src='100.png';">
                 <div class="gallery-info">
                     <h4>تصميم رقم ${i}</h4>
-                    <a href="${whatsappUrl}" target="_blank" class="order-btn" onclick="event.stopPropagation();">
-                        <i class="fa-brands fa-whatsapp"></i> اطلب هذا
-                    </a>
+                    <button class="order-btn" onclick="openDataModal(event, ${i}, '${fullImageUrl}')">
+                        اطلب الآن
+                    </button>
                 </div>
             `;
 
@@ -449,12 +670,12 @@
             galleryContainer.appendChild(card);
         }
 
-        // إغلاق النافذة عند النقر على زر X
+        // إغلاق نافذة الصورة المكبرة عند النقر على زر X
         lightboxClose.addEventListener('click', () => {
             lightboxModal.classList.remove('active');
         });
 
-        // إغلاق النافذة عند النقر في أي مكان خارج الصورة
+        // إغلاق نافذة الصورة المكبرة عند النقر في أي مكان خارج الصورة
         lightboxModal.addEventListener('click', (e) => {
             if (e.target !== lightboxImg) {
                 lightboxModal.classList.remove('active');
