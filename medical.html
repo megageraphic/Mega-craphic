@@ -24,6 +24,7 @@
             --text-main: #F3F4F6;         /* أبيض ناصع للنصوص */
             --text-muted: #9CA3AF;        /* رمادي للنصوص الفرعية */
             --border-color: rgba(0, 240, 255, 0.2);
+            --btn-bg: #0088cc;
             --whatsapp-color: #25D366;
             --facebook-color: #1877F2;
         }
@@ -255,31 +256,147 @@
             justify-content: space-between;
         }
 
+        /* رقم التصميم بخط صغير وأنيق */
         .img-tag {
-            font-size: 1rem;
-            color: var(--gold-light);
-            font-weight: 800;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .btn-order-item {
-            background: transparent;
-            border: 1px solid var(--primary-blue);
-            color: var(--primary-blue);
+            background: var(--btn-bg);
+            border: none;
+            color: #FFFFFF;
             padding: 0.5rem 1.2rem;
             border-radius: 8px;
-            text-decoration: none;
             font-weight: 700;
             font-size: 0.9rem;
             transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            cursor: pointer;
         }
 
         .btn-order-item:hover {
-            background: var(--primary-blue);
-            color: #000;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+            background: #0077b5;
+            box-shadow: 0 0 15px rgba(0, 136, 204, 0.5);
+            transform: scale(1.03);
+        }
+
+        /* نافذة إدخال البيانات Modal */
+        .data-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(6px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            padding: 20px;
+        }
+
+        .data-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .data-modal-card {
+            background: #111827;
+            border: 1px solid var(--primary-blue);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.25);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .data-modal.active .data-modal-card {
+            transform: scale(1);
+        }
+
+        .data-modal-card h3 {
+            color: var(--primary-blue);
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .data-modal-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+            color: var(--gold-light);
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #0B0F19;
+            color: #FFFFFF;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-blue);
+        }
+
+        .submit-data-btn {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-hover) 100%);
+            color: #000000;
+            font-weight: 800;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-data-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(0, 240, 255, 0.4);
+        }
+
+        .close-data-modal {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            color: var(--text-muted);
+            font-size: 1.6rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-data-modal:hover {
+            color: #FFFFFF;
         }
 
         /* نافذة المعاينة الكبيرة Lightbox */
@@ -460,6 +577,28 @@
         </div>
     </section>
 
+    <!-- نافذة إدخال البيانات -->
+    <div class="data-modal" id="dataModal">
+        <div class="data-modal-card">
+            <span class="close-data-modal" id="closeDataModal">&times;</span>
+            <h3 id="modalDesignTitle">إكمال طلب التصميم</h3>
+            <p>يرجى إدخال بياناتك ليتواصل معك فريق ميجا جرافيك</p>
+            <form id="orderDataForm">
+                <div class="form-group">
+                    <label for="clientName">الاسم الكامل:</label>
+                    <input type="text" id="clientName" placeholder="أدخل اسمك الكريم" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientPhone">رقم الهاتف / الواتساب:</label>
+                    <input type="tel" id="clientPhone" placeholder="أدخل رقم هاتفك" required>
+                </div>
+                <button type="submit" class="submit-data-btn" id="submitOrderBtn">
+                    تأكيد وإرسال الطلب
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- نافذة المعاينة الكبيرة Lightbox -->
     <div class="lightbox-modal" id="lightboxModal">
         <span class="lightbox-close" id="lightboxClose">&times;</span>
@@ -484,7 +623,7 @@
         </div>
     </footer>
 
-    <!-- السكربت لتوليد البطاقات والتحكم بفتح الصور بمقاسها الكامل -->
+    <!-- السكربت لتوليد البطاقات والتحكم بالنوافذ وإرسال البيانات للبوت -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const galleryGrid = document.getElementById('galleryGrid');
@@ -492,26 +631,110 @@
             const lightboxImg = document.getElementById('lightboxImg');
             const lightboxClose = document.getElementById('lightboxClose');
 
+            // عناصر نافذة إدخال البيانات
+            const dataModal = document.getElementById('dataModal');
+            const closeDataModal = document.getElementById('closeDataModal');
+            const orderDataForm = document.getElementById('orderDataForm');
+            const modalDesignTitle = document.getElementById('modalDesignTitle');
+            const submitOrderBtn = document.getElementById('submitOrderBtn');
+
+            // بيانات بوت تليجرام
+            const TELEGRAM_BOT_TOKEN = '8990133528:AAF-Pb82_knno-g_pYxE3qBeEH6_8FoCtvQ';
+            const TELEGRAM_CHAT_ID = '5847571012';
+
+            let currentSelectedDesign = {
+                number: null,
+                imageUrl: ''
+            };
+
+            // فتح نافذة إدخال البيانات
+            window.openDataModal = function(event, designNumber, imageUrl) {
+                event.stopPropagation(); // منع فتح نافذة المعاينة الكبيرة
+                currentSelectedDesign.number = designNumber;
+                currentSelectedDesign.imageUrl = imageUrl;
+                
+                modalDesignTitle.innerText = `طلب تصميم رقم ${designNumber}`;
+                dataModal.classList.add('active');
+            };
+
+            // إغلاق نافذة البيانات
+            closeDataModal.addEventListener('click', () => {
+                dataModal.classList.remove('active');
+            });
+
+            dataModal.addEventListener('click', (e) => {
+                if (e.target === dataModal) {
+                    dataModal.classList.remove('active');
+                }
+            });
+
+            // إرسال البيانات للتليجرام
+            orderDataForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const clientName = document.getElementById('clientName').value.trim();
+                const clientPhone = document.getElementById('clientPhone').value.trim();
+
+                if (!clientName || !clientPhone) return;
+
+                const originalBtnText = submitOrderBtn.innerHTML;
+                submitOrderBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الإرسال...';
+                submitOrderBtn.disabled = true;
+
+                const textMessage = `📬 *طلب تصميم جديد - المنشآت الطبية والمتاجر*\n\n👤 *الاسم:* ${clientName}\n📞 *الهاتف:* ${clientPhone}\n🎨 *التصميم:* نموذج رقم ${currentSelectedDesign.number}\n🖼️ *رابط الصورة:* ${currentSelectedDesign.imageUrl}`;
+                const telegramApiUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+
+                fetch(telegramApiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: textMessage,
+                        parse_mode: 'Markdown'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        alert('تم إرسال طلبك بنجاح! سيتواصل معك فريق ميجا جرافيك في أقرب وقت.');
+                        orderDataForm.reset();
+                        dataModal.classList.remove('active');
+                    } else {
+                        throw new Error(data.description);
+                    }
+                })
+                .catch(error => {
+                    console.error('Telegram Error:', error);
+                    alert('حدث خطأ أثناء الإرسال، يرجى المحاولة مرة أخرى.');
+                })
+                .finally(() => {
+                    submitOrderBtn.innerHTML = originalBtnText;
+                    submitOrderBtn.disabled = false;
+                });
+            });
+
+            // توليد بطاقات المعرض من 61.png إلى 90.png
             for (let i = 61; i <= 90; i++) {
                 const card = document.createElement('div');
                 card.className = 'gallery-card';
                 const imageSrc = `${i}.png`;
+                const fullImageUrl = window.location.origin + window.location.pathname.replace('medical.html', '') + imageSrc;
 
                 card.innerHTML = `
                     <div class="image-container">
-                        <img src="${imageSrc}" alt="صورة ${imageSrc}" onerror="this.src='https://via.placeholder.com/600x400/111827/00F0FF?text=Mega+Graphic+${i}.png'">
+                        <img src="${imageSrc}" alt="نموذج ${i}" onerror="this.src='https://via.placeholder.com/600x400/111827/00F0FF?text=Mega+Graphic+${i}.png'">
                     </div>
                     <div class="card-body">
                         <div class="card-action">
-                            <span class="img-tag">${i}.png</span>
-                            <a href="https://wa.me/201010255123?text=مرحباً%20ميجا%20جرافيك،%20أرغب%20في%20طلب%20تصميم%20مثل%20نموذج%20(${i}.png)" target="_blank" class="btn-order-item" onclick="event.stopPropagation();">
-                                <i class="fa-brands fa-whatsapp"></i> اطلب مثل هذا
-                            </a>
+                            <span class="img-tag">تصميم رقم ${i}</span>
+                            <button class="btn-order-item" onclick="openDataModal(event, ${i}, '${fullImageUrl}')">
+                                اطلب مثل هذا
+                            </button>
                         </div>
                     </div>
                 `;
 
-                // عند النقر على أي مكان بالبطاقة تفتح الصورة بمقاسها الكامل
+                // عند النقر على الكارت تفتح الصورة بمقاسها الكامل
                 card.addEventListener('click', () => {
                     lightboxImg.src = imageSrc;
                     lightboxModal.classList.add('active');
@@ -520,12 +743,11 @@
                 galleryGrid.appendChild(card);
             }
 
-            // إغلاق المعاينة عند النقر على زر الإغلاق X
+            // إغلاق المعاينة الكبيرة
             lightboxClose.addEventListener('click', () => {
                 lightboxModal.classList.remove('active');
             });
 
-            // إغلاق المعاينة عند النقر في أي مكان خارج الصورة
             lightboxModal.addEventListener('click', (e) => {
                 if (e.target !== lightboxImg) {
                     lightboxModal.classList.remove('active');
