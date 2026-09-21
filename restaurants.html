@@ -34,7 +34,6 @@
             line-height: 1.6;
         }
 
-        /* الهيدر وقائمة التنقل */
         header {
             background-color: #000000;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
@@ -95,7 +94,6 @@
             background: var(--gold-primary);
         }
 
-        /* بنر الصفحة */
         .hero-banner {
             text-align: center;
             padding: 4rem 2rem;
@@ -117,7 +115,6 @@
             margin: 0 auto;
         }
 
-        /* معرض الصور الشبكي */
         .gallery-section {
             max-width: 1200px;
             margin: 4rem auto;
@@ -196,7 +193,6 @@
             margin-bottom: 0.8rem;
         }
 
-        /* زر اطلب هذا */
         .order-btn {
             display: inline-flex;
             align-items: center;
@@ -219,7 +215,6 @@
             transform: scale(1.02);
         }
 
-        /* نافذة المعاينة بالكامل (Fullscreen Lightbox Modal) */
         .lightbox-modal {
             position: fixed;
             top: 0;
@@ -272,7 +267,6 @@
             color: #FFFFFF;
         }
 
-        /* الأزرار العائمة */
         .floating-buttons {
             position: fixed;
             bottom: 25px;
@@ -335,7 +329,6 @@
             transform: scale(1.1);
         }
 
-        /* الفوتر */
         footer {
             background-color: #000000;
             color: var(--text-light);
@@ -358,7 +351,6 @@
 </head>
 <body>
 
-    <!-- الهيدر -->
     <header>
         <nav class="navbar">
             <a href="index.html" class="logo-container">
@@ -369,30 +361,24 @@
         </nav>
     </header>
 
-    <!-- البنر الرئيسي -->
     <section class="hero-banner">
         <h1><i class="fa-solid fa-utensils"></i> تصميم مواقع المطاعم والكافيهات</h1>
         <p>نقدم أفضل الحلول المبتكرة لتصميم المنيو التفاعلي، وأنظمة الطلب أونلاين وحجوزات الطاولات باحترافية عالية لتعزيز مبيعات مطعمك.</p>
     </section>
 
-    <!-- معرض الصور الشبكي -->
     <section class="gallery-section">
         <div class="section-title">
             <h2>معرض أعمالنا ونماذج المنيو</h2>
         </div>
 
-        <div class="gallery-grid" id="galleryContainer">
-            <!-- يتم التوليد بالسكربت -->
-        </div>
+        <div class="gallery-grid" id="galleryContainer"></div>
     </section>
 
-    <!-- نافذة المعاينة الكبيرة -->
     <div class="lightbox-modal" id="lightboxModal">
         <span class="lightbox-close" id="lightboxClose">&times;</span>
         <img src="" alt="معاينة الصورة" class="lightbox-content" id="lightboxImg">
     </div>
 
-    <!-- الأزرار العائمة -->
     <a href="index.html" class="floating-back-btn" title="الرجوع للصفحة الرئيسية">
         <i class="fa-solid fa-house"></i>
     </a>
@@ -406,23 +392,19 @@
         </a>
     </div>
 
-    <!-- الفوتر -->
     <footer>
         <p>جميع الحقوق محفوظة &copy; 2026 لموقع <strong>ميجا جرافيك</strong></p>
     </footer>
 
-    <!-- السكربت البرمجي لحل مشكلة الإرسال -->
     <script>
         const galleryContainer = document.getElementById('galleryContainer');
         const lightboxModal = document.getElementById('lightboxModal');
         const lightboxImg = document.getElementById('lightboxImg');
         const lightboxClose = document.getElementById('lightboxClose');
 
-        // بيانات Telegram API المحدثة بالحساب الخاص بك
-        const BOT_TOKEN = '8990133528:AAF2gJdcxJP5hbY34YIe1JySRW_BbkxVN5Q';
-        const CHAT_ID = '5847571012';
+        // رابط Google Apps Script الخاص بك
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwLOyUCZ1eB_1QQ4zMamiGvYX6ooDPB_Ye6_gUVK1hduXjJg-dWYK5ZilNy_QcGa3UR/exec';
 
-        // دالة الإرسال المتوافقة مع كافة الهواتف والمتصفحات
         function sendOrderToTelegram(designNumber, buttonElement) {
             const userPhone = prompt("الرجاء إدخال رقم هاتفك ليتواصل معك فريق ميجا جرافيك:");
             if (!userPhone) {
@@ -436,27 +418,28 @@
 
             const fullImageUrl = window.location.origin + window.location.pathname.replace('restaurants.html', '') + `${designNumber}.png`;
 
-            // نص مبسط بدونرموز معقدة تسبب حظر تليجرام
-            const message = `طلب تصميم جديد من الموقع!\n\nاسم التصميم: تصميم رقم ${designNumber}\nرقم العميل: ${userPhone}\nرابط التصميم: ${fullImageUrl}`;
-
-            const encodedMessage = encodeURIComponent(message);
-            const telegramApiUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodedMessage}`;
-
-            // استخدام عنصر صورة خلفي لتفادي قيود المتصفح (CORS)
-            const img = new Image();
-            img.src = telegramApiUrl;
-
-            const finishSend = () => {
-                alert("✅ تم إرسال طلبك بنجاح! تحقق من حساب تليجرام الآن.");
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    designNumber: designNumber,
+                    phone: userPhone,
+                    imageUrl: fullImageUrl
+                })
+            })
+            .then(() => {
+                alert("✅ تم إرسال طلبك بنجاح! سيتواصل معك فريق ميجا جرافيك قريباً.");
+            })
+            .catch(() => {
+                alert("❌ حدث خطأ، يرجى المحاولة مرة أخرى.");
+            })
+            .finally(() => {
                 buttonElement.innerHTML = originalText;
                 buttonElement.disabled = false;
-            };
-
-            img.onload = finishSend;
-            img.onerror = finishSend;
+            });
         }
 
-        // إنشاء عناصر الصور من 10 إلى 50 تلقائياً
         for (let i = 10; i <= 50; i++) {
             const card = document.createElement('div');
             card.className = 'gallery-card';
@@ -480,7 +463,6 @@
             galleryContainer.appendChild(card);
         }
 
-        // إغلاق المعاينة الكبيرة
         lightboxClose.addEventListener('click', () => {
             lightboxModal.classList.remove('active');
         });
