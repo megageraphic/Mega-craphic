@@ -18,7 +18,7 @@
             --gold-hover: #AA820A;
             --text-light: #E0E0E0;
             --border-gold: rgba(212, 175, 55, 0.3);
-            --telegram-color: #24A1DE;
+            --whatsapp-color: #25D366;
         }
 
         * {
@@ -34,6 +34,7 @@
             line-height: 1.6;
         }
 
+        /* الهيدر وقائمة التنقل */
         header {
             background-color: #000000;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
@@ -94,6 +95,7 @@
             background: var(--gold-primary);
         }
 
+        /* بنر الصفحة */
         .hero-banner {
             text-align: center;
             padding: 4rem 2rem;
@@ -115,6 +117,7 @@
             margin: 0 auto;
         }
 
+        /* معرض الصور الشبكي */
         .gallery-section {
             max-width: 1200px;
             margin: 4rem auto;
@@ -193,6 +196,7 @@
             margin-bottom: 0.8rem;
         }
 
+        /* زر اطلب هذا */
         .order-btn {
             display: inline-flex;
             align-items: center;
@@ -201,20 +205,20 @@
             width: 100%;
             padding: 0.6rem;
             border-radius: 8px;
-            background-color: var(--telegram-color);
+            background-color: var(--whatsapp-color);
             color: #FFFFFF;
-            border: none;
-            cursor: pointer;
+            text-decoration: none;
             font-weight: 700;
             font-size: 0.95rem;
             transition: background-color 0.3s ease, transform 0.2s;
         }
 
         .order-btn:hover {
-            background-color: #1a82b8;
+            background-color: #1ebd59;
             transform: scale(1.02);
         }
 
+        /* نافذة المعاينة بالكامل (Fullscreen Lightbox Modal) */
         .lightbox-modal {
             position: fixed;
             top: 0;
@@ -267,6 +271,7 @@
             color: #FFFFFF;
         }
 
+        /* الأزرار العائمة جهة اليسار (اتصال وواتساب) */
         .floating-buttons {
             position: fixed;
             bottom: 25px;
@@ -277,6 +282,7 @@
             z-index: 9999;
         }
 
+        /* زر الرجوع العائم جهة اليمين */
         .floating-back-btn {
             position: fixed;
             bottom: 25px;
@@ -314,9 +320,9 @@
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        .floating-telegram {
-            background-color: var(--telegram-color);
-            box-shadow: 0 4px 15px rgba(36, 161, 222, 0.5);
+        .floating-whatsapp {
+            background-color: var(--whatsapp-color);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.5);
         }
 
         .floating-call {
@@ -329,6 +335,7 @@
             transform: scale(1.1);
         }
 
+        /* الفوتر */
         footer {
             background-color: #000000;
             color: var(--text-light);
@@ -351,6 +358,7 @@
 </head>
 <body>
 
+    <!-- الهيدر -->
     <header>
         <nav class="navbar">
             <a href="index.html" class="logo-container">
@@ -361,100 +369,78 @@
         </nav>
     </header>
 
+    <!-- البنر الرئيسي -->
     <section class="hero-banner">
         <h1><i class="fa-solid fa-utensils"></i> تصميم مواقع المطاعم والكافيهات</h1>
         <p>نقدم أفضل الحلول المبتكرة لتصميم المنيو التفاعلي، وأنظمة الطلب أونلاين وحجوزات الطاولات باحترافية عالية لتعزيز مبيعات مطعمك.</p>
     </section>
 
+    <!-- معرض الصور الديناميكي من 10.png إلى 50.png -->
     <section class="gallery-section">
         <div class="section-title">
             <h2>معرض أعمالنا ونماذج المنيو</h2>
         </div>
 
-        <div class="gallery-grid" id="galleryContainer"></div>
+        <div class="gallery-grid" id="galleryContainer">
+            <!-- سيتم إنشاء أظرف الصور تلقائياً بواسطة JavaScript -->
+        </div>
     </section>
 
+    <!-- نافذة المعاينة الكبيرة للصورة بالكامل -->
     <div class="lightbox-modal" id="lightboxModal">
         <span class="lightbox-close" id="lightboxClose">&times;</span>
         <img src="" alt="معاينة الصورة" class="lightbox-content" id="lightboxImg">
     </div>
 
+    <!-- زر عائم جهة اليمين للرجوع للرئيسية index.html -->
     <a href="index.html" class="floating-back-btn" title="الرجوع للصفحة الرئيسية">
         <i class="fa-solid fa-house"></i>
     </a>
 
+    <!-- الأزرار العائمة جهة اليسار -->
     <div class="floating-buttons">
         <a href="tel:01010255123" class="floating-btn floating-call" title="إتصال هاتفي مباشر">
             <i class="fa-solid fa-phone"></i>
         </a>
-        <a href="https://t.me/megagraphic_bot" target="_blank" class="floating-btn floating-telegram" title="تواصل عبر تليجرام">
-            <i class="fa-brands fa-telegram"></i>
+        <a href="https://wa.me/201010255123?text=مرحباً%20ميجا%20جرافيك،%20أرغب%20في%20استفسار%20عن%20تصميم%20موقع%20مطعم" target="_blank" class="floating-btn floating-whatsapp" title="تواصل عبر الواتساب">
+            <i class="fa-brands fa-whatsapp"></i>
         </a>
     </div>
 
+    <!-- الفوتر -->
     <footer>
         <p>جميع الحقوق محفوظة &copy; 2026 لموقع <strong>ميجا جرافيك</strong></p>
     </footer>
 
+    <!-- السكربت لتوليد الصور والتحكم بالمعاينة الكبيرة ورابط الواتساب لكل تصميم -->
     <script>
         const galleryContainer = document.getElementById('galleryContainer');
         const lightboxModal = document.getElementById('lightboxModal');
         const lightboxImg = document.getElementById('lightboxImg');
         const lightboxClose = document.getElementById('lightboxClose');
 
-        // رابط Google Apps Script الخاص بك
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw0TRikN043Y6YeRzKlAZosJ3QYo_kbOqvA7q3ShrAoA8nSb82bcq01ctA6-QHAtqa6/exec';
-
-        function sendOrderToTelegram(designNumber, buttonElement) {
-            const userPhone = prompt("الرجاء إدخال رقم هاتفك ليتواصل معك فريق ميجا جرافيك:");
-            if (!userPhone) {
-                alert("يرجى إدخال رقم الهاتف لإتمام الطلب.");
-                return;
-            }
-
-            const originalText = buttonElement.innerHTML;
-            buttonElement.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري الإرسال...`;
-            buttonElement.disabled = true;
-
-            const fullImageUrl = window.location.origin + window.location.pathname.replace('restaurants.html', '') + `${designNumber}.png`;
-
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    designNumber: designNumber,
-                    phone: userPhone,
-                    imageUrl: fullImageUrl
-                })
-            })
-            .then(() => {
-                alert("✅ تم إرسال طلبك بنجاح! سيتواصل معك فريق ميجا جرافيك قريباً.");
-            })
-            .catch(() => {
-                alert("❌ حدث خطأ، يرجى المحاولة مرة أخرى.");
-            })
-            .finally(() => {
-                buttonElement.innerHTML = originalText;
-                buttonElement.disabled = false;
-            });
-        }
-
+        // إنشاء عناصر الصور من 10 إلى 50 تلقائياً
         for (let i = 10; i <= 50; i++) {
             const card = document.createElement('div');
             card.className = 'gallery-card';
             const imageSrc = `${i}.png`;
+            const fullImageUrl = window.location.origin + window.location.pathname.replace('restaurants.html', '') + imageSrc;
+            
+            // نص الرسالة الموجهة للواتساب
+            const whatsappMessage = `مرحباً ميجا جرافيك 👋\nأرغب في طلب هذا التصميم:\n📌 اسم التصميم: تصميم رقم ${i}\n🖼️ رابط الصورة: ${fullImageUrl}`;
+            const whatsappUrl = `https://wa.me/201010255123?text=${encodeURIComponent(whatsappMessage)}`;
 
             card.innerHTML = `
                 <img src="${imageSrc}" alt="نموذج ${i}" class="gallery-img" onerror="this.onerror=null; this.src='100.png';">
                 <div class="gallery-info">
                     <h4>تصميم رقم ${i}</h4>
-                    <button class="order-btn" onclick="event.stopPropagation(); sendOrderToTelegram(${i}, this);">
-                        <i class="fa-brands fa-telegram"></i> اطلب هذا
-                    </button>
+                    <a href="${whatsappUrl}" target="_blank" class="order-btn" onclick="event.stopPropagation();">
+                        <i class="fa-brands fa-whatsapp"></i> اطلب هذا
+                    </a>
                 </div>
             `;
 
+            // عند النقر على الكارت يفتح الصورة بحجم كامل
             card.addEventListener('click', () => {
                 lightboxImg.src = imageSrc;
                 lightboxModal.classList.add('active');
@@ -463,10 +449,12 @@
             galleryContainer.appendChild(card);
         }
 
+        // إغلاق النافذة عند النقر على زر X
         lightboxClose.addEventListener('click', () => {
             lightboxModal.classList.remove('active');
         });
 
+        // إغلاق النافذة عند النقر في أي مكان خارج الصورة
         lightboxModal.addEventListener('click', (e) => {
             if (e.target !== lightboxImg) {
                 lightboxModal.classList.remove('active');
